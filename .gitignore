@@ -1,0 +1,15 @@
+# folder
+PSCNets/
+
+# extension
+src/*/*cpython-36.pyc
+src/*/*.save
+
+# sbatch logs
+*.out
+
+# pycache
+*__pycache__*
+
+# IDE meta data
+*.idea*

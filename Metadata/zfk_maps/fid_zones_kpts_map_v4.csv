@@ -1,0 +1,18 @@
+﻿Fid,RBp,RFm,LBp,LFm,UCh,RAb,LAb,URTh,Gr,ULTh,LRTh,LLTh,RCf,LCf,RAk,LAk,UBk
+y,"['RSh', 'REb']","['REb', 'RWr']","['LSh', 'LEb']","['LEb', 'LWr']","['RSh', 'LSh']","['RSh', 'RHp']","['LSh', 'LHp']","['RHp',  'LHp']","['RHp',  'LHp']","['RHp', 'LHp']","['RKe', 'LKe']","['RKe', 'LKe']","['RKe', 'LKe', 'RAk', 'LAk']","['RKe', 'LKe', 'RAk', 'LAk']","['RAk', 'LAk']","['LAk', 'RAk']","['RSh', 'LSh']"
+0,"['RSh', 'REb']","['REb', 'RWr']","['LSh', 'LEb']","['LEb', 'LWr']","['RSh', 'LSh']","['RSh', 'RHp', 'RKe']","['LSh', 'LHp','LKe']","['RHp', 'RKe']","['RHp', 'RKe', 'LHp', 'LKe']","['LHp', 'LKe']",['RKe'],['LKe'],"['RKe', 'RAk']","['LKe', 'LAk']",['RAk'],['LAk'],None
+1,None,None,"['LSh', 'LEb']","['LEb', 'LWr']","['RSh', 'LSh']",None,"['LSh', 'LHp','LKe']",None,"[ 'LHp', 'RKe']","['LHp', 'LKe']",['RKe'],['LKe'],"['RKe', 'RAk']","['LKe', 'LAk']",['RAk'],['LAk'],None
+2,None,None,"['LSh', 'LEb']","['LEb', 'LWr']",None,None,"['LSh', 'LHp','LKe']",None,None,"['LHp', 'LKe']",['RKe'],['LKe'],"['RKe', 'RAk']","['LKe', 'LAk']",['RAk'],['LAk'],None
+3,None,None,"['LSh', 'LEb']","['LEb', 'LWr']",None,None,"['LSh', 'LHp','LKe']",None,None,"['LHp', 'LKe']",None,"['LKe', 'LAk']",None,"['LKe', 'LAk']",None,['LAk'],None
+4,None,None,None,None,None,None,"['LSh', 'LHp','LKe']",None,None,"['LHp', 'LKe']",None,"['LHp', 'RKe', 'LKe']",None,"['LKe', 'LAk']",None,['LAk'],None
+5,None,None,"['LSh', 'LEb']","['LEb', 'LWr']",None,None,"['LSh', 'LHp','LKe']",None,None,"['LHp', 'LKe']",None,"['LHp', 'LKe']",None,"['LKe', 'LAk']",None,['LAk'],None
+6,None,None,"['LSh', 'LEb']","['LEb', 'LWr']",None,None,"['LSh', 'LHp','LKe']",None,None,"['LHp', 'LKe']",None,['LKe'],None,"['LKe', 'LAk']",None,['LAk'],None
+7,None,None,"['LSh', 'LEb']","['LEb', 'LWr']",None,None,"['LSh', 'LHp','LKe']",None,"['LHp', 'RKe']","['LHp', 'LKe']",['RKe'],['LKe'],"['RKe', 'RAk']","['LKe', 'LAk']",['RAk'],['LAk'],"['RSh', 'LSh']"
+8,"['RSh', 'REb']","['REb', 'RWr']","['LSh', 'LEb']","['LEb', 'LWr']",None,"['RSh', 'RHp', 'RKe']","['LSh', 'LHp','LKe']","['RHp', 'RKe']","['RHp',  'LHp', 'RKe', 'LKe']","['LHp', 'LKe']",['RKe'],['LKe'],"['RKe', 'RAk']","['LKe', 'LAk']",['RAk'],['LAk'],"['RSh', 'LSh']"
+9,"['RSh', 'REb']","['REb', 'RWr']",None,None,None,"['RSh', 'RHp', 'RKe']",None,"['RHp', 'RKe']","['RHp', 'LKe']",None,['RKe'],['LKe'],"['RKe', 'RAk']","['LKe', 'LAk']",['RAk'],['LAk'],"['RSh', 'LSh']"
+10,"['RSh', 'REb']","['REb', 'RWr']",None,None,None,"['RSh', 'RHp', 'RKe']",None,"['RHp', 'RKe']",None,None,['RKe'],None,"['RKe', 'RAk']",None,['RAk'],None,None
+11,"['RSh', 'REb']","['REb', 'RWr']",None,None,None,"['RSh', 'RHp', 'RKe']",None,"['RHp', 'RKe']",None,None,"['RHp', 'RKe']",None,"['RKe', 'RAk']",None,['RAk'],None,None
+12,None,None,None,None,None,"['RSh', 'RHp', 'RKe']",None,"['RHp', 'RKe']",None,None,"['RHp', 'RKe', 'LKe']",None,"['RKe', 'RAk']",None,['RAk'],None,None
+13,"['RSh', 'REb']","['REb', 'RWr']",None,None,None,"['RSh', 'RHp', 'RKe']",None,"['RHp', 'RKe']",None,None,"['RKe', 'RAk']",None,"['RKe', 'RAk']",None,['RAk'],None,None
+14,"['RSh', 'REb']","['REb', 'RWr']",None,None,None,"['RSh', 'RHp', 'RKe']",None,"['RHp', 'RKe']",None,None,['RKe'],['LKe'],"['RKe', 'RAk']","['LKe', 'LAk']",['RAk'],['LAk'],None
+15,"['RSh', 'REb']","['REb', 'RWr']",None,None,"['RSh', 'LSh']","['RSh', 'RHp', 'RKe']",None,"['RHp', 'RKe']","['RHp', 'LKe']",None,['RKe'],['LKe'],"['RKe', 'RAk']","['LKe', 'LAk']",['RAk'],['LAk'],None

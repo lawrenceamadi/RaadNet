@@ -1,0 +1,259 @@
+HOME_DIR: ../
+DATA_DIR: ../../../datasets/tsa
+GPUS: (0,)
+MODEL_DIR: PSCNets/models/
+EXP_DIR: debug
+
+AUGMENT:
+  WANDERING_ROI: no
+  ODDS: .15
+  X_SHIFT: .12 #+++.125
+  Y_SHIFT: .12 #+++.125
+  ROTATE: 10 #+++10
+  S_ZOOM: 0.2
+  H_FLIP: yes
+  BRIGHTNESS: 15  #++0
+  P_CONTRAST: 15  #++0
+  N_CONTRAST: 0.  #++4. #!!! # min:0.0, max:5.0
+  GRID_TILES:
+    - 3 #++5 number of rows
+    - 3 #++5 number of columns
+
+DATASET:
+  FORMAT: aps
+  ROOT: aps_images/dataset/ #***
+  SCALE_PIXELS: no #++yes
+  BG_IMAGE: Metadata/tsa_psc/aps_bg.png
+  W_IMG_DIR: test_set
+  IMAGE_DIR: train_set
+  PREPROCESS: yes
+  NORMALIZE: no
+  ENHANCE_VISIBILITY: 0.0
+  FRESH_BUILD: yes # [!]
+  RETAIN_IN_MEMORY: yes
+  PERSIST_ON_DISK: yes # [!]
+  RETAINED_DATA_DIR: pseudo_data
+  XY_BOUNDARY_ERROR: 50
+  SUBSETS:
+    SMALL_PORTION: yes # [!] use only a small portion of the dataset
+    GROUPINGS: Metadata/tsa_psc/kfolds_distribution.csv # [train_set_distribution.csv]
+    GROUP_TYPE: k5_Folds # [groupSet, k3_Folds, k5_Folds, k7_Folds]
+    TRAIN_SETS:
+      - 1
+      - 2
+      - 3
+      - 4
+    VALID_SETS:
+      - 5
+
+DEBUG:
+  TURN_ON_DISPLAY: no
+  ONE_PER_STEP: no
+  PREDICTIONS: yes
+  IMG_LOG_MAX: 10
+  TIMESTAMP: second # minute, month
+
+LABELS:
+  USE_PSEUDO_LABELS: no #--no
+  USE_THREAT_BBOX_ANOTS: no #--no
+  THREAT_OVERLAP_THRESH: 0.6 #--0.7
+  THREAT_ANOTS_MISMATCH: 1.0 #--0.0
+  CSV:
+    GT_ZONE: Metadata/tsa_psc/train_set_labels_v2.csv #train_set_labels_v1.csv
+    FZK_MAP: Metadata/zfk_maps/fid_zones_kpts_map_v6.1.csv #--fid_zones_kpts_map_[v1, v4, v6].csv
+    KPTS_SET: Metadata/hrnet_kpts/all_sets-w32_256x192-rgb_wfp-opt-ref.x0110v3-rsc_bav3.csv
+    THREAT_OBJ_POS: Metadata/tsa_psc/stage1_labels_1_marked_combined.csv
+    PRED_PROB: preserve/Comb10_2020-05-21-22-51/models/Comb10_2020-05-21-22-51_wgts-18900-avgf1s_t.csv
+
+LOSS:
+  NUM_CLASSES: 2
+  NET_OUTPUTS_ID:
+    - zt # zone level threat probability (1 unit)
+    #- gt # image group-set level threat probability (m units)
+  NET_OUTPUTS_FCBLOCK_ACT:
+    - sigmoid
+    #- sigmoid
+  NET_OUTPUTS_ACT:
+    - linear
+    #- linear
+  NET_OUTPUTS_LOSS:
+    - binary_crossentropy
+    #- multi_bce_loss #--[*multi_bce_loss, selective_loss]
+  NET_OUTPUTS_LOSS_COEF:
+    - 1.0 #--1.0
+    #- 1.0
+  DEFAULT_LOSS_BRANCH_WGT:
+    - 1.0
+    - 0.0
+  SMOOTH_LABELS: 0.0
+  BENIGN_CLASS_WGT: 1.0 #--0.2
+  THREAT_CLASS_WGT: 1.0 #--1.0
+  PASS_SAMPLE_WGTS: yes
+  SEG_CONFIDENCE_CTR: no
+  SEG_CONFIDENCE_MIN: 1.0 #--0.7
+  SEG_CONFIDENCE_MAX: 1.0 #--1.0
+  EXTRA:
+    Y_THRESHOLD: 0.7
+    X_SCALE: 100.0 #200
+    STEP_PHASE: 15000 #15000
+    SELECTIVE_BCE_EPOCH: 40 #+-40  epoch to begin selective bce optimization, turn off with -1
+    SL_BENIGN_CLASS_WGT: 1.0 #--0.2  new benign class weight to use for selective loss func
+
+MODEL:
+  GROUPS:
+    - Bicep
+    - Forearm
+    - Chest
+    - Abs
+    - UThigh
+    - Groin
+    - LThigh
+    - Calf
+    - Ankle
+    - Back
+  TRANS_LEARN_PARAM_INIT: no
+  IMAGE_SIZE:
+    - 128 #--80
+    - 128 #--80
+    - 3
+  REGION_DIM:
+    - 160 #--160
+    - 160 #--160
+  ROI_POOL_DIM:
+    - 5 #--5
+    - 5 #--5
+  FORCE_SQUARE: yes
+  BATCH_NORMALIZE: yes
+  ENABLE_DENOISER: no
+  DROPOUT_FC: 0.0
+  DROPOUT_SP: 0.0
+  WGT_REG_RESC: 0.0
+  WGT_REG_DENSE: 0.1 #!!! #++0.15
+  CONV_DIM: 3 #--3
+  IMAGES_PER_SEQ_GRP: 3 #--3
+  SUBNET_TYPE: body_groups #->+ [body_zones, body_groups, combined]
+  NETWORK_ARCHITECTURE: grp_model_v6_td #->+ [grp_model_v4_td, grp_model_v6_td]
+  EXTRA:
+    FE_NETWORK: mobilenet_v2 #--mobilenet_v2
+    FE_OUT_LAYER: block_5_add #--[block_5_add, block_8_add]
+    UNFREEZE_FE_BLOCKS: -1 #++[<0: unfreeze all, OR >0]
+    # how to merge intermediate global reg & previous stage roi residual blocks
+    JOIN_GLOBREG_N_PREVZOI: add #->+ [no-join, *add, concat]
+    CONCAT_ZOI_STG_BLOCKS: no #->+ *no whether or not to concatenate each stage's zoi_t_block
+    N_SUPER_BLOCKS: 1 # number of super blocks of reg&roi per stage
+    CIRCULAR_3D_PADDING: yes # repetition padding on the image-axis
+    N_CONV_PER_BLOCK:
+      - 2 #->+ 2
+      - 2
+    RES_CONV_VERSION: v7 #->+ [v1, v2, *v3, *v4, v5, v6, v7]
+    POOL_BTWN_PHASES: no #++no
+    RES_CONV_FILTERS:
+      - 64  #->+ -64,32,32
+      - 128  #->+ 128,64,32
+      #- 96 #->+
+    FC_UNITS:
+      - 128 #-128,0
+      - 64  #--64,64
+      - 64  #--64,32
+      - 16  #--10,16
+    RCV_LT_UNITS: 32 #--64
+    RCV_FC_INDEX: 1 #-> +0,1,2*
+    POOL_FUNC: glob_max #--[glob_avg, glob_max]
+    MAX_POOL_SIZE:
+      - 3 #--3 should match IMAGES_PER_SEQ_GRP
+      - 3 #--3
+      - 3 #--3
+    MAX_POOL_STRIDE:
+      - 3 #--3 should match IMAGES_PER_SEQ_GRP
+      - 3 #--2
+      - 3 #--2
+    ROI_TYPE: oriented #--[bbprior, aligned, oriented]
+    RCV_IOU_OF: roi_vs_rois_per_zone #--[*roi_vs_rois_per_zone, nci_vs_rois_per_zone]
+    POLYNOMIAL_DEGREE: 6 #++*[4, 6]
+    THREAT_LOGIT_UNITS: 1
+    BDPART_LOGIT_UNITS: 17
+
+TRAIN:
+  ON_WHOLE_SET: no
+  BEGIN_EPOCH: 0
+  PATIENCE: 0 # 25
+  WARMUP_EPOCHS: 1 #75 #**90
+  END_EPOCH: 2 # 80 #**100
+  OPTIMIZER: Adam
+  INIT_LR: 0.001 #0.005
+  BETA_1: 0.9
+  BETA_2: 0.999
+  AMSGRAD: no #--yes
+  EOE_SHUFFLE: yes
+  MINORITY_RESAMPLE: yes
+  AUGMENTATION: yes
+  WORKERS: 0 #-1 #**-1
+  PRINT_FREQ: 2 #**[0,1,2] equivalent to verbose
+  CUSTOM_TRAIN_LOOP: no
+  BATCH_SIZE_PER_GPU: 2 # [!] 2, 4
+  QUEUE_SIZE: 0 #2 # [!]
+  CACHE_TF_DATA: no
+  TF_CHECKPOINTING: no
+  TB:
+    WRITE_GRAPH: yes # whether to visualize graph in TensorBoard
+    WRITE_IMAGES: no # whether to visualize model weights as images
+    HISTOGTAM_FRQ: 0 # frequency in epochs (>=0) to compute act & wgt hist.
+    PROFILE_BATCH:
+      - 0 # [0: disable profiling, pair of +integers signify batch range]
+  EXTRA:
+    LR_MODE: 1
+    LR_TYPE: curve
+    LR_CONFIG:
+      - linear
+      - 0.001
+      - 0.001
+      - cosine
+      - 0.001
+      - 0.00005
+      - linear
+      - 0.00005
+      - 0.00005
+    FUNC_FRAC:
+      - 0.10 #++0.10
+      - 0.90 #++0.90
+      - 1.00
+    LR_UPDATES:
+      - 0.00025
+      - 0.000125
+      - 0.0000625
+      - 0.00003125
+    LR_ITERATIONS:
+      - 4500
+      - 9000
+      - 13500
+      - 18000
+    OPTIMAL_STEPS:
+      - 18900
+      - 19300
+      - 22700
+      - 52200
+      - 70200
+      - 71800
+    OPTIMAL_NAMES:
+      - avg_f1s
+      - avg_f1s
+      - log_loss
+      - log_loss
+      - avg_f1s
+      - log_loss
+
+VALID:
+  #VALIDATE: yes #**yes
+  CBK_VALIDATE: yes
+  FIT_VALIDATE: no
+  EOE_SHUFFLE: no
+  MINORITY_RESAMPLE: no
+  AUGMENTATION: no
+  WORKERS: 0 #-1 #**-1
+  PRINT_FREQ: 1
+  BATCH_SIZE_PER_GPU: 2 # [!] 2, 4
+  QUEUE_SIZE: 1 #2 # [!]
+  EOE_VALIDATE: yes
+  VALIDATE_FREQ: 500 #**50
+  DELAY_CHECKPOINT: 20 #**20
+  CACHE_TF_DATA: yes
